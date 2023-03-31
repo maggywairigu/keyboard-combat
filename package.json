@@ -1,0 +1,31 @@
+{
+  "name": "keyboard-kombat",
+  "version": "1.0.0",
+  "description": "Typing game for shooting targets through typing words",
+  "main": "index.html",
+  "dependencies": {
+    "express": "^4.17.1",
+    "phaser": "^3.55.2",
+    "socket.io": "^4.3.2",
+    "word-list": "^1.0.1"
+  },
+  "scripts": {
+    "start": "node index.html",
+    "dev": "nodemon index.html"
+  },
+  "author": "Margaret Maina",
+  "license": "MIT",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maggywairigu/keyboard-combat.git"
+  },
+  "keywords": [
+    "typing",
+    "game"
+  ],
+  "bugs": {
+    "url": "https://github.com/maggywairigu/keyboard-combat/issues"
+  },
+  "homepage": "https://github.com/maggywairigu/keyboard-combat#readme"
+}
