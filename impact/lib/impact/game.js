@@ -1,3 +1,4 @@
+ig.backed = true;
 ig.module(
 	'impact.game'
 )
