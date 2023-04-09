@@ -387,6 +387,7 @@ ig.module('game.index').requires('impact.game', 'impact.font', 'game.menus.game-
             }
             return true;
         },
+        //simulates a key press event in response to user input via touch or mouse
         virtualKeydown: function(letter) {
             if (this.mode != Kombat.MODE.GAME || this.menu) {
                 return true;
@@ -408,7 +409,9 @@ ig.module('game.index').requires('impact.game', 'impact.font', 'game.menus.game-
             }
             this.shoot(letter);
         },
+        //handle player input and check if the input matches with the target 
         shoot: function(letter) {
+            //idleTimer is reset inorder to indicate that the game is active 
             this.idleTimer.reset();
             if (!this.currentTarget) {
                 var potentialTargets = this.targets[letter];
@@ -463,6 +466,7 @@ ig.module('game.index').requires('impact.game', 'impact.font', 'game.menus.game-
                 }
             }
         },
+        //set up the new game or next mission
         setGame: function() {
             this.reset();
             this.gameTransitionTimer = new ig.Timer(2);
@@ -475,6 +479,7 @@ ig.module('game.index').requires('impact.game', 'impact.font', 'game.menus.game-
             this.spawnSound.play();
             this.emps = 3;
         },
+        //sets the game over page ie updating scores, fading the score out
         setGameOver: function() {
             if (this.score > this.personalBest) {
                 this.isPersonalBest = true;
@@ -489,17 +494,10 @@ ig.module('game.index').requires('impact.game', 'impact.font', 'game.menus.game-
         },
         showGameOverScreen: function() {
             this.menu = new MenuGameOver();
-            if (this.adPage && !localStorage.getItem('removeAds')) {
-                this.adPage.show();
-            }
-            if (this.cocoonInterstitial) {
-                this.cocoonInterstitial.show();
-            }
+            
         },
         setTitle: function() {
-            if (this.cocoonInterstitial) {
-                this.cocoonInterstitial.load();
-            }
+
             this.reset();
             this.mode = Kombat.MODE.TITLE;
             this.menu = new MenuTitle();
@@ -590,17 +588,17 @@ ig.module('game.index').requires('impact.game', 'impact.font', 'game.menus.game-
                     }
                 }
             }
-            if (this.waitingForItunes) {
+            /*if (this.waitingForItunes) {
                 this.drawSpinner();
-            }
+            }*/
         },
-        drawSpinner: function() {
+        /*drawSpinner: function() {
             ig.system.context.fillStyle = 'rgba(0,0,0,0.7)';
             ig.system.context.fillRect(0, 0, ig.system.width, ig.system.height);
             var spinner = ['', '.', '..', '...'];
             var tt = ((ig.Timer.time * 5) % spinner.length) | 0;
             this.fontTitle.draw(spinner[tt], ig.system.width / 2 - 16, ig.system.height / 2);
-        },
+        },*/
         drawGame: function() {
             var ctx = ig.system.context;
             ctx.save();
@@ -633,20 +631,20 @@ ig.module('game.index').requires('impact.game', 'impact.font', 'game.menus.game-
                 var ys = 276 + (d < 1 ? Math.cos(1 - d).map(1, 0, 0, 250) : 0);
                 var w = this.mission.mission.zeroFill(3);
                 ig.system.context.globalAlpha = a;
-                this.fontTitle.draw('MISSION ' + w + ' CLEAR', 32, ys, ig.Font.ALIGN.LEFT);
+                this.fontTitle.draw('MISSION ' + w + ' DONE', 32, ys, ig.Font.ALIGN.LEFT);
                 ig.system.context.drawImage(this.separatorBar.data, 32, ys + 48, 276, 2);
                 this.font.draw('SCORE: ' + this.score.zeroFill(6), 32, (ys * 1.2) + 10, ig.Font.ALIGN.LEFT);
                 ig.system.context.globalAlpha = 1;
             }
-            if (!ig.ua.mobile && this.idleTimer.delta() > 8) {
+            /*if (!ig.ua.mobile && this.idleTimer.delta() > 8) {
                 var aa = this.idleTimer.delta().map(8, 9, 0, 1).limit(0, 1);
                 ig.system.context.globalAlpha = (Math.sin(this.idleTimer.delta() * 4) * 0.25 + 0.75) * aa;
                 this.font.draw('Type the words to shoot!\nENTER for EMP', ig.system.width / 2, ig.system.height - 180, ig.Font.ALIGN.CENTER);
                 ig.system.context.globalAlpha = 1;
-            }
+            }*/
             this.keyboard.draw();
         },
-        purchaseRemoveAds: function() {
+        /*purchaseRemoveAds: function() {
             this.iap = this.iap || new Ejecta.IAPManager();
             ig.game.waitingForItunes = true;
             this.iap.getProducts(['removeAds'], function(error, products) {
@@ -667,8 +665,8 @@ ig.module('game.index').requires('impact.game', 'impact.font', 'game.menus.game-
                     });
                 }
             });
-        },
-        restoreIAP: function() {
+        },*/
+        /*restoreIAP: function() {
             this.iap = this.iap || new Ejecta.IAPManager();
             ig.game.waitingForItunes = true;
             this.iap.restoreTransactions(function(error, transactions) {
@@ -687,7 +685,7 @@ ig.module('game.index').requires('impact.game', 'impact.font', 'game.menus.game-
                 }
                 ig.game.setTitle();
             });
-        }
+        }*/
     });
     Kombat.MODE = {
         TITLE: 0,
@@ -741,7 +739,7 @@ ig.module('game.index').requires('impact.game', 'impact.font', 'game.menus.game-
                 incEvery: 1
             }]
         }
-    }});
+    };
     var canvas = document.getElementById('kombat-canvas');
     var width = 480;
     var height = 720;
