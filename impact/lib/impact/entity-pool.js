@@ -1,3 +1,4 @@
+ig.baked = true;
 ig.module(
 	'impact.entity-pool'
 )
